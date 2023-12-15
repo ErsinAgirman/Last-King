@@ -12,7 +12,7 @@ public class GroundWalk : MonoBehaviour
     private Animator anim;
 
     private float currentspeed;
-
+    bool isAttacking;
 
     void Start()
     {
@@ -32,34 +32,49 @@ public class GroundWalk : MonoBehaviour
         get{return target;}
         set{target=value;}
     }
+    public float setSpeed{
+         get{return currentspeed;}
+        set{moveSpeed=value;}
+    }
+    public bool setAttack{
+         get{return isAttacking;}
+        set{isAttacking=value;}
+    }
     void Update()
     {
         if (photonView.IsMine)
         {
-           Movement();
+           if(isAttacking==false)
+           {
+              Movement();
+           }
+           else
+           {
+               anim.SetFloat("isWalking",0);
+           }
+          
         }
     }
     void Movement()
     {
         anim.SetFloat("isWalking",moveSpeed);
-        transform.position=Vector2.MoveTowards(transform.position,new Vector2(target.position.x,transform.position.y),moveSpeed*Time.deltaTime);
       Collider2D[] enemys=Physics2D.OverlapCircleAll(transform.position,moveRange,enemylayer);
        foreach (Collider2D enmy in enemys)
        {
-         target=enmy.transform;
-         
-          Debug.Log(LayerMask.LayerToName(enmy.gameObject.layer));   
+         target=enmy.transform;   
        }     
-       if (0.1f>Vector2.Distance(transform.position,target.position))
-         moveSpeed=0f;
-       else
-        moveSpeed=currentspeed;
-      
+        if (target == null)
+        {
+            target =currenttarget;
+        }
+
         if (GetComponent<PositionControl>().facingright&&transform.position.x>target.position.x||GetComponent<PositionControl>().facingright==false&&transform.position.x<target.position.x)
         {
             GetComponent<PositionControl>().facingright=!GetComponent<PositionControl>().facingright;
             GetComponent<PositionControl>().ChangePosition();
         }
+
+        transform.position=Vector2.MoveTowards(transform.position,new Vector2(target.position.x,transform.position.y),moveSpeed*Time.deltaTime);
         
     }
     private void OnDrawGizmos() 

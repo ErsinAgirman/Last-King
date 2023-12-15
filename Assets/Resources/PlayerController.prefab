@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allies:
-  - {fileID: 624058126292130638, guid: 4de6d8c9ff55fa744bf44f264b733181, type: 3}
+  - {fileID: 3711031011805147830, guid: 983b9ce6b77e0e346a35a6750bd365a7, type: 3}
   tower: {fileID: 8844009581709196702, guid: be26b5d56d358df4bac470b2e11fb633, type: 3}
 --- !u!114 &9149344116864485763
 MonoBehaviour:
